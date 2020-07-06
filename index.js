@@ -1,19 +1,10 @@
 const $ = require('jquery');
 const fs = require('fs');
 const nodePath = require('path');
-// const monaco = require('monaco-editor');
-
 
 let currPath;
 let directory;
 $(document).ready(function () {
-
-
-    // monaco.editor.create(document.getElementById("text-editor"), {
-    //     value: "function hello() {\n\talert('Hello world!');\n}",
-    //     language: "javascript"
-    // });
-    
 
     currPath = process.argv[6].split('=')[1];
     //--app-path=C:\Users\INDIA\Desktop\1. Dev\2. Lectures\Vs-Code-Clone
@@ -31,7 +22,7 @@ $(document).ready(function () {
             data: data,
             "check_callback": true
         }
-        
+
     }).on("open_node.jstree", function (e, data) {
 
         data.node.children.forEach(function (child) {

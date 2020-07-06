@@ -2,33 +2,79 @@
 <html>
 
 <head>
-    <title>VS Code</title>
+	<title>VS Code</title>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
-    <link rel="stylesheet" href="./index.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
+	<link rel="stylesheet" href="./index.css">
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
-    <script src="./index.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
+
+	<script src="./index.js"></script>
 </head>
 
 <body>
-    <div id="container">
-        <div id="top-bar"></div>
-        <div id="main-window">
-            <div id="explorer-window">
-                <div id="content"></div>
-            </div>
-            <div id="editor-terminal-window">
-                <div id="text-editor">
-                </div>
-                <div id="terminal"></div>
-            </div>
-        </div>
-    </div>
-
-    </div>
+	<div id="container">
+		<div id="top-bar"></div>
+		<div id="main-window">
+			<div id="explorer-window">
+				<div id="content"></div>
+			</div>
+			<div id="editor-terminal-window">
+				<div id="text-editor">
+				</div>
+				<div id="terminal" style="width: 500px;border: 1px solid #ccc; "></div>
+			</div>
+		</div>
+	</div>
+	</div>
+	<script src="./node_modules/monaco-editor/min/vs/loader.js"></script>
+	<script>
+		require.config({ paths: { 'vs': './node_modules/monaco-editor/min/vs' } });
+		require(['vs/editor/editor.main'], function () {
+			var editor = monaco.editor.create(document.getElementById('text-editor'), {
+				value: [
+					'function x() {',
+					'\tconsole.log("Hello world!");',
+					'}'
+				].join('\n'),
+				language: 'javascript'
+			});
+		});
+	</script>
 </body>
 
+<!-- <script>
+	(function () {
+		const path = require('path');
+		const amdLoader = require('./node_modules/monaco-editor/min/vs/loader.js');
+		const amdRequire = amdLoader.require;
+		const amdDefine = amdLoader.require.define;
+
+		function uriFromPath(_path) {
+			var pathName = path.resolve(_path).replace(/\\/g, '/');
+			if (pathName.length > 0 && pathName.charAt(0) !== '/') {
+				pathName = '/' + pathName;
+			}
+			return encodeURI('file://' + pathName);
+		}
+
+		amdRequire.config({
+			baseUrl: uriFromPath(path.join(__dirname, '../node_modules/monaco-editor/min'))
+		});
+		// workaround monaco-css not understanding the environment
+		self.module = undefined;
+		amdRequire(['vs/editor/editor.main'], function () {
+			var editor = monaco.editor.create(document.getElementById("text-editor"), {
+				value: [
+					'function x() {',
+					'\tconsole.log("Hello world!");',
+					'}'
+				].join('\n'),
+				language: 'javascript'
+			});
+		});
+	})();
+</script> -->
 
 </html>
