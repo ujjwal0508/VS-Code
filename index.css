@@ -42,7 +42,7 @@ html, body {
     display: flex;
     flex-direction: column;
     border: 1px solid green;
-    width: calc(100vw - 225px);
+    width: calc(100vw - 227px);
 
 }
 
@@ -50,8 +50,7 @@ html, body {
     display: flex;
     flex-direction: column;
     border: 1px solid brown;
-    height: calc(100vh - 225px);
-    width: auto;
+    height: calc(100vh - 300px);
     border-bottom: 3px solid brown;
 }
 
