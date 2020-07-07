@@ -16,7 +16,7 @@ html, body {
 #top-bar {
     border: 1px solid blue;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     height: 20px;
 }
 

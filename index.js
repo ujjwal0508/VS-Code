@@ -1,15 +1,21 @@
-const $ = require('jquery');
+var $ = jQuery = require('jquery')
+require('jquery-ui-dist/jquery-ui');
+require('jstree');
+
 const fs = require('fs');
 const nodePath = require('path');
 
 let currPath;
 let directory;
 let editor;
+
+// console.log(jQuery);
 $(document).ready(async function () {
 
-    editor = await promisifyRequire();
+    editor = await getMonacoPromise();
     console.log(editor)
-
+    $('#explorer-window').resizable();
+    $('#terminal').resizable();
 
     currPath = process.argv[6].split('=')[1];
     //--app-path=C:\Users\INDIA\Desktop\1. Dev\2. Lectures\Vs-Code-Clone
@@ -53,7 +59,8 @@ function updateEditor(path) {
             lang = 'javascript';
         }
         console.log(lang);
-        monaco.editor.setModelLanguage(editor.getModel(), lang);        }
+        monaco.editor.setModelLanguage(editor.getModel(), lang);
+    }
 }
 
 function getCurrentDirectories(path) {
@@ -79,15 +86,18 @@ function getCurrentDirectories(path) {
 function getName(path) {
     return path.replace(/^.*[\\\/]/, '');
 }
-function promisifyRequire() {
-    return new Promise(function (resolve, reject) {
-        require.config({ paths: { 'vs': './node_modules/monaco-editor/min/vs' } });
-        require(['vs/editor/editor.main'], function () {
+
+function getMonacoPromise() {
+    return new Promise(function (resolve, reject)   {
+        var mloader = require('./node_modules/monaco-editor/dev/vs/loader.js');
+        mloader.require.config({ paths: { 'vs': './node_modules/monaco-editor/dev/vs' } });
+        mloader.require(['vs/editor/editor.main'], function (a) {
             let editor = monaco.editor.create(document.getElementById('text-editor'), {
                 value: "function hello() {\n\talert('Hello world!');\n}",
                 language: 'javascript'
             });
+
             resolve(editor);
         });
-    })
+    });
 }
