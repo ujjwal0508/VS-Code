@@ -4,6 +4,8 @@ require('jstree');
 
 const fs = require('fs');
 const nodePath = require('path');
+const os = require('os');
+const pty =require('node-pty');
 
 let currPath;
 let db;
@@ -15,6 +17,31 @@ let lcFolder;
 
 // console.log(jQuery);
 $(document).ready(async function () {
+
+
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    const shell = process.env[os.platform() === 'win32' ? 'COMSPEC' : 'SHELL'];
+    const ptyProcess = pty.spawn(shell, [], {
+      name: 'xterm-color',
+      cols: 80,
+      rows: 30,
+      cwd: process.cwd(),
+      env: process.env
+    });
+    
+    // Initialize xterm.js and attach it to the DOM
+    const xterm = new Terminal();
+    xterm.open(document.getElementById('terminal'));
+    
+    // Setup communication between xterm.js and node-pty
+    xterm.onData(data => ptyProcess.write(data));
+    ptyProcess.on('data', function (data) {
+      xterm.write(data);
+    });
+    
+
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     editor = await getMonacoPromise();
     console.log(editor)
@@ -52,7 +79,6 @@ $(document).ready(async function () {
         delete db[panelId];
 
         window.event.stopImmediatePropagation();
-
     });
 
     tabs.on("click", ".ui-tabs-tab", function () {

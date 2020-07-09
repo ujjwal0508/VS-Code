@@ -12,12 +12,15 @@
   "devDependencies": {
     "ejs-electron": "^2.0.3",
     "electron": "^9.0.5",
+    "electron-rebuild": "^1.11.0",
     "electron-reload": "^1.5.0",
     "jquery": "^3.5.1",
     "jquery-ui": "^1.12.1",
     "jquery-ui-dist": "^1.12.1",
     "jstree": "^3.3.10",
-    "monaco-editor": "^0.20.0"
+    "monaco-editor": "^0.20.0",
+    "node-pty": "^0.9.0",
+    "xterm": "^4.7.0"
   },
   "dependencies": {
     "ejs": "^3.1.3"
