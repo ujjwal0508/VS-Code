@@ -19,7 +19,7 @@ function createWindow() {
         win.maximize();
         // win.darkTheme(true);
         win.show();
-        win.webContents.openDevTools();
+        // win.webContents.openDevTools();
       });
 
     // Open the DevTools.

@@ -15,10 +15,12 @@ let defaultName = 'utilited';
 let lcTab = [];
 let lcFolder;
 
-// console.log(jQuery);
 $(document).ready(async function () {
 
+    
 
+    // xterm integration
+    // no logic just copy paste code from https://github.com/microsoft/node-pty/blob/master/examples/electron/renderer.js
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     const shell = process.env[os.platform() === 'win32' ? 'COMSPEC' : 'SHELL'];
@@ -40,14 +42,18 @@ $(document).ready(async function () {
       xterm.write(data);
     });
     
-
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+    //monaco editor integration 
     editor = await getMonacoPromise();
     console.log(editor)
 
+    //make divs resizeable
     $('#explorer-window').resizable();
     $('#terminal').resizable();
+
+    //make tabs on top
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     let tabs = $("#tabs").tabs({
         collapsible: true,
@@ -101,6 +107,8 @@ $(document).ready(async function () {
 
     })
 
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     editor.onDidBlurEditorText(function () {
 
         let ltab = lcTab[lcTab.length - 1];
@@ -108,9 +116,12 @@ $(document).ready(async function () {
 
     });
 
+    //basic setup
     db = {};
     openFile();
 
+    //explorer tree code
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     currPath = process.argv[6].split('=')[1];
     lcFolder = currPath;
 
@@ -139,15 +150,17 @@ $(document).ready(async function () {
             })
         })
         lcFolder = data.node.id;
-        // console.log(lcFolder);
+        
     }).on('changed.jstree', function (e, data) {
-        // console.log(data.selected);
+        
         if (fs.lstatSync(data.selected[0]).isFile()) {
             openFile(data.selected[0]);
             console.log(lcTab);
         }
 
     })
+
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     $('#new').on('click', function () {
         openFile();
@@ -217,10 +230,13 @@ function getCurrentDirectories(path) {
     return rv;
 }
 
+//get file name from path
 function getName(path) {
     return path.replace(/^.*[\\\/]/, '');
 }
 
+//monaco editor integration promise
+//made mloader and used its require bcoz monaco changes node require.
 function getMonacoPromise() {
     return new Promise(function (resolve, reject) {
         var mloader = require('./node_modules/monaco-editor/dev/vs/loader.js');
