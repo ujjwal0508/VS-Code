@@ -6,6 +6,7 @@ const fs = require('fs');
 const nodePath = require('path');
 const os = require('os');
 const pty =require('node-pty');
+const  {FitAddon}=require("xterm-addon-fit");
 
 let currPath;
 let db;
@@ -34,8 +35,10 @@ $(document).ready(async function () {
     
     // Initialize xterm.js and attach it to the DOM
     const xterm = new Terminal();
+    const fitAddon=new FitAddon();
+    xterm.loadAddon(fitAddon);
     xterm.open(document.getElementById('terminal'));
-    
+    fitAddon.fit()
     // Setup communication between xterm.js and node-pty
     xterm.onData(data => ptyProcess.write(data));
     ptyProcess.on('data', function (data) {
@@ -49,8 +52,8 @@ $(document).ready(async function () {
     console.log(editor)
 
     //make divs resizeable
-    $('#explorer-window').resizable();
-    $('#terminal').resizable();
+    // $('#explorer-window').resizable();
+    // $('#terminal').resizable();
 
     //make tabs on top
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

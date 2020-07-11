@@ -1,6 +1,7 @@
 html, body {
     margin: 0px;
     padding: 0px;
+    overflow: hidden;
 }
 
 * {
@@ -9,8 +10,9 @@ html, body {
 
 #container {
     border: 1px solid black;
-    display: flex;
-    flex-direction: column;
+    height: 100vh;
+    /* display: flex; */
+    /* flex-direction: column; */
 }
 
 #top-bar {
@@ -23,15 +25,19 @@ html, body {
 #main-window {
     display: flex;
     flex-direction: row;
+    height: calc(100vh - 50px );
 }
 
+#explore-window,#editor-terminal-window{
 
+    height: 100%;
+}
 
 #explorer-window {
 
     display: flex;
     flex-direction: column;
-    border: 1px solid red;
+    /* border: 1px solid red; */
     overflow: auto;
     width: 225px;
     border-right: 3px solid red;
@@ -41,7 +47,6 @@ html, body {
 
     display: flex;
     flex-direction: column;
-    border: 1px solid green;
     width: calc(100vw - 227px);
 
 }
@@ -49,21 +54,25 @@ html, body {
 #text-editor {
     display: flex;
     flex-direction: column;
-    border: 1px solid brown;
-    height: calc(100vh - 300px);
-    border-bottom: 3px solid brown;
+    /* border: 1px solid brown; */
+    height: calc(100% - 187px);
+    overflow: hidden;
+    /* border-bottom: 3px solid brown; */
 }
 
 #terminal {
     display: flex;
     flex-direction: column;
-    border: 1px solid lime;
-    height: 200px;
+    /* border: 1px solid lime; */
+    height: 187px;
     width: auto;
     
 }
 
 #content{
-    height: calc(100vh - 20px);
+    height: 100%;
     width: auto;
+}
+.xterm .xterm-viewport::-webkit-scrollbar{
+display: none;
 }
